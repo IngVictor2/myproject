@@ -2,6 +2,7 @@ from contextlib import contextmanager, asynccontextmanager
 from fastapi import FastAPI
 from config.database import Base, engine
 from controller.auth_controller import router as auth_router
+from controller.task_controller import router as task_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -19,3 +20,4 @@ async def bienvenida():
     return {"mensaje": "MyProject"}
 
 app.include_router(auth_router)
+app.include_router(task_router)
