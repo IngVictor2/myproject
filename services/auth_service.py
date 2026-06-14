@@ -26,24 +26,24 @@ class AuthService:
         
         return self.user_repository.create(new_user)
     
-    def login(self, login_data: LoginRequest) -> Token:
-        user = self.user_repository.get_by_email(login_data.email)  
-        if not user:                                                  
+    def login(self, email: str, password: str) -> Token:
+        user = self.user_repository.get_by_email(email)
+        if not user:
             raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciales inválidas",
+            detail="Credenciales inválidas"
         )
 
-        if not verify_password(login_data.password, user.hashed_password):  
+        if not verify_password(password, user.hashed_password):  
             raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciales inválidas",
+            detail="Credenciales inválidas"
         )
 
         if not user.is_active:                                       
             raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Usuario desactivado",
+            detail="Usuario desactivado"
         )
 
         access_token = create_access_token(data={"sub": str(user.id)}) 
