@@ -14,7 +14,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-@app.get("/")                                             # Línea 21
+@app.get("/")                                            
 async def bienvenida():
     return {"mensaje": "MyProject"}
 
