@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from model.task_model import Task
 from repositories.task_repository import TaskRepository
 from model.user_model import User
-from schemas.task_schemas import TaskCreate, TaskUpdate
+from schemas.task_schemas import TaskCreate, TaskUpdate, TaskPriority, TaskStatus
 
 class TaskService:
     def __init__(self, db: Session):
@@ -42,7 +42,7 @@ class TaskService:
         
         task = self.get_task_by_id(task_id, current_user)
         
-        if task.status == "pending" and task_data.status == "done":
+        if task.status == TaskStatus.PENDING and task_data.status == TaskStatus.DONE:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Task must first be in progress before being completed"

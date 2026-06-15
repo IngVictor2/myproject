@@ -1,23 +1,36 @@
 from datetime import datetime
+from enum import Enum
 from pydantic import BaseModel
+
+class TaskStatus(str, Enum):
+    PENDING = "pending"
+    IN_PROGRESS = "in_progress"
+    DONE = "done"
+
+
+class TaskPriority(str, Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+
 
 class TaskCreate(BaseModel):
     title: str
     description: str | None = None
-    priority: str
+    priority: TaskPriority
     
 class TaskUpdate(BaseModel):
     title: str
     description: str | None = None
-    priority: str 
+    priority: TaskPriority 
     status: str 
     
 class TaskResponse(BaseModel):
     id: int
     title: str
     description: str | None = None
-    status: str
-    priority: str
+    status: TaskStatus
+    priority: TaskPriority
     owner_id: int
     created_at: datetime
     updated_at: datetime
